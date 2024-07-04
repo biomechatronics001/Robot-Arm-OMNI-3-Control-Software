@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Language set to English -->
+<head>
+    <meta charset="UTF-8">  <!-- Page character encoding set to UTF-8 -->
+    <title>Robot Arm Control</title>   <!-- Page title set to "Robot Arm Control" -->
+    <!-- The following section defines the layout and style of various embedded buttons on the webpage -->
+    <style>
+        .column {   /* Define .column class */
+            float: left;  /* Float to the left */
+            width: 50%;   /* Occupies 50% width of the page (parent element) */
+            box-sizing: border-box;  /* Set box model to border-box */
+            padding: 10px;  /* Set padding to 10px */
+        }
+        .row:after {  /* Define pseudo-element of .row class */
+            content: "";  /* Pseudo-element content is empty */
+            display: table;  /* Display as table */
+            clear: both;  /* Clear floats */
+        }
+        .motor-control {  /* Define .motor-control class */
+            margin-bottom: 10px;  /* Set bottom margin to 10px */
+        }
+        label, input, button {  /* Define label, input, button elements */
+            margin-right: 10px;  /* Set right margin to 10px */
+        }
+        #limitControls {  /* Define #limitControls element */
+            margin: 20px;  /* Set margin to 20px */
+        }
+    </style>  <!-- End of stylesheet -->
+</head>  <!-- End of head section -->
+<!-- The following section defines the main content of the webpage -->
+<body>
+    <h1>Device Control</h1>  <!-- Level 1 heading "Device Control" -->
+    <div class="row">  <!-- Define a .row class -->
+        <div class="column" id="left">  <!-- Define a .column class with ID left, creating a div element for placing content for left-hand control area -->
+            <h2>Robot arm 01 (IP: 192.168.1.211)</h2>   <!-- Level 2 heading "Robot arm 01 (IP: 192.168.1.211)" -->
+            <button onclick="enableDevice(ws1)">Enable</button>  <!-- Define "Enable" button, calls enableDevice function with ws1 as parameter when clicked -->
+            <button onclick="disableDevice(ws1)">Disable</button>  <!-- Define "Disable" button, calls disableDevice function with ws1 as parameter when clicked -->
+            <button onclick="setZeroPoint(ws1, 'setZeroMotorId1')">Set zero point</button>  <!-- Define "Set zero point" button, calls setZeroPoint function with ws1 and 'setZeroMotorId1' as parameters when clicked -->
+            <input type="number" id="setZeroMotorId1" min="1" max="31" required>  <!-- Define a number input field with ID setZeroMotorId1, min value 1, max value 31, required -->
+            <div id="actionButtons1">  <!-- Define a div element with ID actionButtons1 -->
+                <button onclick="sendAction(ws1, prepareMotors1)">Prepare</button>  <!-- Define "Prepare" button, calls sendAction function with ws1 and prepareMotors1 as parameters when clicked -->
+                <button onclick="sendAction(ws1, raiseHandMotors1)">Raise arm</button>  <!-- Define "Raise arm" button, calls sendAction function with ws1 and raiseHandMotors1 as parameters when clicked -->
+                <button onclick="sendAction(ws1, waveHandMotors1)">Wave arm</button>  <!-- Define "Wave arm" button, calls sendAction function with ws1 and waveHandMotors1 as parameters when clicked -->
+                <button onclick="sendAction(ws1, action41)">Action 4</button>
+                <button onclick="sendAction(ws1, action51)">Action 5</button>
+                <button onclick="sendAction(ws1, action61)">Action 6</button>
+                <button onclick="sendAction(ws1, action71)">Action 7</button>
+                <button onclick="sendAction(ws1, action81)">Action 8</button>
+                <button onclick="sendAction(ws1, action91)">Action 9</button>
+            </div>  <!-- End of div element -->
+            <div id="motorControls1"></div>  <!-- Define a div element with ID motorControls1, note this div element is empty, buttons defined below are not included in this div element -->
+            <button onclick="sendMotorCommand(ws1, motors1)">Send all commands</button>  <!-- Define "Send all commands" button, calls sendMotorCommand function with ws1 and motors1 as parameters when clicked -->
+            <div id="runDataControls1">  <!-- Define a div element with ID runDataControls1 -->
+                <button onclick="startReading(ws1, 'dataDisplay1')">Start reading data</button>  <!-- Define "Start reading data" button, calls startReading function with ws1 and 'dataDisplay1' as parameters when clicked -->
+                <button onclick="stopReading('dataDisplay1')">Stop reading data</button>  <!-- Define "Stop reading data" button, calls stopReading function with 'dataDisplay1' as parameter when clicked -->
+                <div id="dataDisplay1"></div>  <!-- Define a div element with ID dataDisplay1, used to display data, note this div element is also empty and contained within runDataControls1 div element -->
+            </div>  <!-- End of div element -->
+            <div id="limitControls1"></div>  <!-- Define a div element with ID limitControls1, note this div element is empty -->
+        </div>  <!-- End of the entire left control area div element -->
+        <div class="column" id="right">  <!-- Define a .column class with ID right, creating a div element for placing content for right-hand control area -->
+            <h2>Robot arm 02 (IP: 192.168.1.212)</h2>  <!-- Level 2 heading "Robot arm 02 (IP: 192.168.1.212)" -->
+            <button onclick="enableDevice(ws2)">Enable</button> <!-- The following buttons are defined similarly to the left-hand ones, but many parameters and functions replace "1" with "2" -->
+            <button onclick="disableDevice(ws2)">Disable</button>
+            <button onclick="setZeroPoint(ws2, 'setZeroMotorId2')">Set zero point</button>
+            <input type="number" id="setZeroMotorId2" min="1" max="31" required>
+            <div id="actionButtons2">
+                <button onclick="sendAction(ws2, prepareMotors2)">Prepare</button>
+                <button onclick="sendAction(ws2, raiseHandMotors2)">Raise arm</button>
+                <button onclick="sendAction(ws2, waveHandMotors2)">Wave arm</button>
+                <button onclick="sendAction(ws2, action42)">Action 4</button>
+                <button onclick="sendAction(ws2, action52)">Action 5</button>
+                <button onclick="sendAction(ws2, action62)">Action 6</button>
+                <button onclick="sendAction(ws2, action72)">Action 7</button>
+                <button onclick="sendAction(ws2, action82)">Action 8</button>
+                <button onclick="sendAction(ws2, action92)">Action 9</button>
+            </div>
+            <div id="motorControls2"></div>
+            <button onclick="sendMotorCommand(ws2, motors2)">Send all commands</button>
+            <div id="runDataControls2">
+                <button onclick="startReading(ws2, 'dataDisplay2')">Start reading data</button>
+                <button onclick="stopReading('dataDisplay2')">Stop reading data</button>
+                <div id="dataDisplay2"></div>
+            </div>
+            <div id="limitControls2"></div>
+        </div>  <!-- End of the entire right control area div element -->
+    </div>  <!-- End of the entire left and right control area div element -->
+    <div class="row">  <!-- The following section defines a div element for simultaneous control of left and right -->
+        <div class="column">
+            <h2>Simultaneous control (robot arm 01 & robot arm 02)</h2>  
+            <button onclick="sendAction(ws1, prepareMotors1); sendAction(ws2, prepareMotors2);">Prepare</button>  <!-- Simultaneously call the prepare action for left and right -->
+            <button onclick="sendAction(ws1, raiseHandMotors1); sendAction(ws2, raiseHandMotors2);">Raise arm</button>  <!-- Simultaneously call the raise arm action for left and right -->
+            <button onclick="sendAction(ws1, waveHandMotors1); sendAction(ws2, waveHandMotors2);">Wave arm</button>  <!-- Simultaneously call the wave arm action for left and right -->
+        </div>
+        <button onclick="initializeWebSocket()">Connect to WebSocket</button>  <!-- Define a "Connect to WebSocket" button, calls initializeWebSocket function when clicked -->
+    </div>
+    <div id="dataDisplay1">Robot arm 01 data display</div>  <!-- Define a div element with ID dataDisplay1, used to display left-hand data -->
+    <div id="dataDisplay2">Robot arm 02 data display</div>  <!-- Define a div element with ID dataDisplay2, used to display right-hand data -->
+     
+    <script>
+        let dataHistory1 = [];  // Define an empty array dataHistory1
+        let dataHistory2 = [];  // Define an empty array dataHistory2
+        const maxHistorySize = 8;  // Keep at most eight data entries
+
+        let ws1, ws2;  // Define two WebSocket objects ws1 and ws2
+
+        function initializeWebSocket() {
+            ws1 = new WebSocket('ws://192.168.1.211:81');  // Create a WebSocket connection to IP address 192.168.1.211:81, connecting to the robot arm 01 (left hand) device
+            ws2 = new WebSocket('ws://192.168.1.212:81');  // Create a WebSocket connection to IP address 192.168.1.212:81, connecting to the robot arm 02 (right hand) device
+
+            ws1.onopen = function(event) {  
+                console.log("Left hand device connected.");  // Print "Left hand device connected." to the console if the left-hand device is successfully connected
+            };
+
+            ws2.onopen = function(event) {
+                console.log("Right hand device connected.");  // Print "Right hand device connected." to the console if the right-hand device is successfully connected
+            };
+
+            ws1.onmessage = function(event) {
+                console.log("Message from server (Left hand):", event.data);  // Print "Message from server (Left hand):" and the message content to the console if a message is received from the left-hand device
+                updateDataDisplay(event.data, dataHistory1, 'dataDisplay1');  // Call updateDataDisplay function to update left-hand data display
+            };
+
+            ws2.onmessage = function(event) {
+                console.log("Message from server (Right hand):", event.data);  // Print "Message from server (Right hand):" and the message content to the console if a message is received from the right-hand device
+                updateDataDisplay(event.data, dataHistory2, 'dataDisplay2');  // Call updateDataDisplay function to update right-hand data display
+            };
+
+            ws1.onerror = function(event) {
+                console.error("Error connecting to left hand device.");  // Print error message to the console if an error occurs in the left-hand WebSocket connection
+            };
+
+            ws2.onerror = function(event) {
+                console.error("Error connecting to right hand device.");  // Print error message to the console if an error occurs in the right-hand WebSocket connection
+            };
+            
+            ws1.onclose = function(event) {
+                console.log("Left hand device connection closed.");  // Print message to the console if the left-hand WebSocket connection is closed
+            };
+
+            ws2.onclose = function(event) {
+                console.log("Right hand device connection closed.");  // Print message to the console if the right-hand WebSocket connection is closed
+            };
+        }
+
+        function updateDataDisplay(newData, dataHistory, displayId) {
+            dataHistory.unshift(newData);  // Add new data to the beginning of the array
+            if (dataHistory.length > maxHistorySize) {  // If the history exceeds the maximum size, remove the oldest data
+                dataHistory.pop(); 
+            }
+            const displayElement = document.getElementById(displayId);  // Get the display element by ID
+            displayElement.innerText = dataHistory.join('\n');  // Use newline character to separate each data entry
+        }
+
+        let motors1 = createMotors(7);  // Create an array motors1 with 7 elements
+        let motors2 = createMotors(7);  // Create an array motors2 with 7 elements
+
+        // The following arrays define the positions and speeds of each motor during different actions
+
+        // Left hand prepare
+        const prepareMotors1 = [{ id: 1, position: 0, speed: 5 },  // Define an array named prepareMotors1 with 7 elements, each element is an object with id, position, and speed properties
+        { id: 2, position: 100, speed: 5}, 
+        { id: 3, position: 170, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 }];
+        
+        // Left hand raise arm
+        const raiseHandMotors1 = [{ id: 1, position: 90, speed: 5 },
+        { id: 2, position: 100, speed: 5},
+        { id: 3, position: 80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 220, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 1600, speed: 200 }];   
+        
+        // Left hand wave arm
+        const waveHandMotors1 = [{ id: 1, position: 90, speed: 5 },
+        { id: 2, position: 127, speed: 5},
+        { id: 3, position: 80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 230, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 1600, speed: 100 }];
+
+        // Left hand action 4
+        const action41 = [{ id: 1, position: 90, speed: 5 },
+        { id: 2, position: 127, speed: 5},
+        { id: 3, position: 80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 230, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 500, speed: 100 }];
+
+        // Left hand action 5
+        const action51 = [{ id: 1, position: 90, speed: 5 },
+        { id: 2, position: 100, speed: 5},
+        { id: 3, position: 80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 230, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 500, speed: 100 }];
+
+        // Left hand action 6
+        const action61 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: 127, speed: 5},
+        { id: 3, position: 80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 230, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 500, speed: 100 }];
+
+        // Left hand action 7, actions 7-9 seem to have no difference, possibly templates for custom actions
+        const action71 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: 100, speed: 5},
+        { id: 3, position: 170, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 }];
+
+        // Left hand action 8
+        const action81 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: 100, speed: 5},
+        { id: 3, position: 170, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 }];
+
+
+        // Left hand action9
+        const action91 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: 100, speed: 5},
+        { id: 3, position: 170, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: 80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 }];        
+        
+
+        // Right hand prepare
+        const prepareMotors2 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand raise arm
+        const raiseHandMotors2 = [{ id: 1, position: -90, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -210, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 1000, speed: 100}];
+
+        // Right hand wave arm
+        const waveHandMotors2 = [{ id: 1, position: -90, speed: 5 },
+        { id: 2, position: -130, speed: 5},
+        { id: 3, position: -80, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -220, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 1000, speed: 100 }];
+        
+        // Right hand action 4
+        const action42 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand action 5
+        const action52 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand action 6
+        const action62 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand action 7
+        const action72 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand action 8
+        const action82 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+        
+        // Right hand action 9
+        const action92 = [{ id: 1, position: 0, speed: 5 },
+        { id: 2, position: -100, speed: 5},
+        { id: 3, position: -165, speed: 5 },
+        { id: 4, position: 0, speed: 5 },
+        { id: 5, position: -80, speed: 5 },
+        { id: 6, position: 0, speed: 5 },
+        { id: 7, position: 0, speed: 100 },];
+
+
+        let readingInterval1, readingInterval2; // Define two variables readingInterval1 and readingInterval2
+
+// Create an array of motors containing count number of motors
+function createMotors(count) {
+    let motors = [];
+    // Create an array with each motor's id, position, and speed, initializing position and speed to 0
+    for (let i = 1; i <= count; i++) {
+        motors.push({ id: i, position: 0, speed: 0 });
+    }
+    return motors;
+}
+
+// Function to enable the device
+function enableDevice(ws) {
+    const msg = JSON.stringify({ shi3neng: true }); // Convert a JSON object containing shi3neng: true to a string
+    ws.send(msg);  // Send this string
+    console.log('Enable command sent:', msg);  // Print the sent message to the console
+}
+
+// Function to disable the device
+function disableDevice(ws) {
+    const msg = JSON.stringify({ shi1neng: true });  // Convert a JSON object containing shi1neng: true to a string
+    ws.send(msg);  // Send this string
+    console.log('Disable command sent:', msg);  // Print the sent message to the console
+}
+
+// Function to send motor commands
+function sendMotorCommand(ws, motors) {
+    const msg = JSON.stringify({ motors: motors });  // Create an object with motors as the property name and the value of the motors variable, then convert this object to a string
+    ws.send(msg);  // Send this string
+    console.log('Motor command sent:', msg);  // Print the sent message to the console
+}
+
+// Function to set zero point for the motor
+function setZeroPoint(ws, inputId) {
+    const motorId = document.getElementById(inputId).value; // Get the value from the input field
+    if (motorId) {
+        const msg = JSON.stringify({ setZeroPoint: { motorId: Number(motorId) } }); // Convert the motor ID to a number, then to a string and send
+        ws.send(msg);
+        console.log('Set zero point command sent:', msg);
+    } else {
+        console.error('Motor ID is required to set zero point'); // Print error to the console if no motor ID is provided
+    }
+}
+
+// Function to start reading motor data
+function startReading(ws, displayId) { 
+    let motorId = 1;  // Assuming reading starts from motor 1
+    const interval = setInterval(() => {  // Create a timer that executes every 1000 milliseconds
+        const msg = JSON.stringify({  
+            readRunData: { 
+                motorId: motorId,
+                parameter: 0  // As per your requirement that parameter is fixed at 0
+            }
+        });
+        ws.send(msg);
+        console.log('Read run data request sent for motor', motorId, ':', msg);
+        motorId = motorId % 7 + 1;  // Assuming you have 8 motors and loop from 1 to 8
+    }, 1000);  // 1000 ms interval for sending read request
+    if (displayId === 'dataDisplay1') {  // Determine if it's the left or right hand based on displayId
+        readingInterval1 = interval; // Assign the timer to readingInterval1
+    } else {
+        readingInterval2 = interval;
+    }
+}
+
+// Function to stop reading motor data
+function stopReading(displayId) {
+    if (displayId === 'dataDisplay1') { // Determine if it's the left or right hand based on displayId
+        clearInterval(readingInterval1); // Reset the timer
+    } else {
+        clearInterval(readingInterval2);
+    }
+}
+
+// Function to initialize motor controls
+function initMotorControls(containerId, motors) {
+    const container = document.getElementById(containerId); // Get the container ID
+    const isLeftHand = containerId.includes("1"); // Determine if it's the left or right hand based on containerId
+    motors.forEach((motor, index) => {  // Iterate over the motors array
+        const div = document.createElement('div'); // Create a div element
+        div.className = 'motor-control'; // Set the class name of the div element to motor-control
+        div.innerHTML = `
+            <label>ID ${motor.id} Position:</label> 
+            <input type="number" onchange="updateMotorData(${isLeftHand ? 'motors1' : 'motors2'}[${index}], 'position', this.value)" value="${motor.position}" />
+            <label>Speed:</label>
+            <input type="number" onchange="updateMotorData(${isLeftHand ? 'motors1' : 'motors2'}[${index}], 'speed', this.value)" value="${motor.speed}" />
+        `; // Set the content of the div element, containing two input fields, one for position and one for speed
+        container.appendChild(div); // Append the div element to the container
+    });
+}
+
+// Function to send action commands (similar to the sendMotorCommand function)
+function sendAction(ws, actionMotors) {
+    const msg = JSON.stringify({ motors: actionMotors }); // The only difference is that the motors value comes from the actionMotors parameter instead of motors
+    ws.send(msg);
+    console.log('Action command sent:', msg);
+}
+
+// Function to update motor data
+function updateMotorData(motor, property, value) { // Pass in the motor object, property name, and property value
+    motor[property] = Number(value); // Convert the property value to a number and assign it to the corresponding property of the motor object
+}
+
+// Execute the initialization of motor controls after the page has loaded
+window.onload = function() {
+    initMotorControls('motorControls1', motors1);
+    initMotorControls('motorControls2', motors2);
+};
+    </script>
+</body>
+</html>
