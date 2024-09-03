@@ -6,9 +6,9 @@
 #include <WebSocketsServer.h>
 #include <Arduino.h>
 
-const char *ssid = "goodlife";
+const char *ssid = "GL-SFT1200-004";
 const char *password = "goodlife";
-const char *hostname = "goodlife";
+const char *hostname = "espressif";
 IPAddress local_IP(192, 168, 1, 200); // Static IP address of ESP32
 IPAddress gateway(192, 168, 1, 0);    // Gateway
 IPAddress subnet(255, 255, 255, 0);   // Subnet mask
