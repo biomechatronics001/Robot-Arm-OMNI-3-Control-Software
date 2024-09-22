@@ -18,7 +18,7 @@ If you are **use our lab PC** with the environment already configured, you can s
 
 # **1: System Connection**
 
-![Indepent Omni-Robot Arm](image.png)
+![Indepent Omni-Robot Arm](/IMAGE/image.png)
 
 Indepent Omni-Robot Arm
 
