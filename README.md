@@ -18,19 +18,12 @@ If you are **use our lab PC** with the environment already configured, you can s
 
 # **1: System Connection**
 
-![Indepent Omni-Robot Arm](/IMAGE/image.png)
+The robotic arm has a cable extending from it, which contains **four wires: CAN In, CAN Out, Power In, and Power Out**. We connect the Power In and Power Out to a 24V power supply generator. The CAN In and CAN Out need to be connected to the LilyGO development board, as shown below.
 
-Indepent Omni-Robot Arm
+![**Wire Connection**](/IMAGE/image%202.png)
 
-Here is our robotic arm, named the **Omni-robot arm**. The robotic arm has a cable extending from it, which contains **four wires: CAN In, CAN Out, Power In, and Power Out**. We connect the Power In and Power Out to a 24V power supply generator. The CAN In and CAN Out need to be connected to the LilyGO development board, as shown below.
+**Wire Connection**
 
-![Lilygo Overview](/IMAGE/image%201.png)
-
-Lilygo Overview
-
-This is our LilyGO, a Wi-Fi module based on the ESP32. Its function is to transmit webpage data to the robotic arm via the local network, enabling wireless control. Connect the robotic arm's cable to 1. the CAN port, making sure to observe the correct polarity.
-
-<aside>
 💡
 
 Currently, the robotic arm has already been assemblied with the AGV. LilyGO boards are fixed inside the AGV box. The CAN connection between LilyGO and robotic arm has been well set up.
@@ -43,33 +36,19 @@ If you would like to upload new code onto LilyGO board, you need to open the AGV
 
 </aside>
 
-To flash the code onto the LilyGO, we need to use a USB-A to Micro USB cable to connect 2. the USB port on LilyGO to the computer's USB port. After connecting, double-check that the connection is correct 
 
-(/IMAGE/it **must be USB-A**; USB-C lacks the necessary drivers, and **it must be a Windows system**—no Mac, no Linux).
-
-Troubleshoot: If the LilyGO is not recognized by the computer, refer to [https://community.lilygo.cc/topic/21/windows-not-detects-usb-drivers/3](/IMAGE/https://community.lilygo.cc/topic/21/windows-not-detects-usb-drivers/3) for a solution.
-
-![**Wire Connection**](/IMAGE/image%202.png)
-
-**Wire Connection**
-
-![**System Connection**](/IMAGE/image%203.png)
-
-**System Connection**
 
 # **2: System Requirement**
 
 1: Install Vscode **(/IMAGE/Please ensure that the system is Windows, No Linux, no Mac)**
 
-2: Open Vscode, search for "PlatformIO" in the extensions section, and click to download. This is an **embedded C/C++ development tool that allows us to develop for the LilyGO module** (/IMAGE/Please ensure again that the system is Windows, No Linux, no Mac).
+2: Open Vscode, search for "PlatformIO" in the extensions section, and click to download.
 
 ![Platformio Installion Guide](/IMAGE/image%204.png)
 
 Platformio Installion Guide
 
-3: If you're interested in learning more about ESP32, you can refer to [https://docs.platformio.org/en/latest/platforms/espressif32.html](/IMAGE/https://docs.platformio.org/en/latest/platforms/espressif32.html)
-
-4: The following display indicates the download is complete.
+3: The following display indicates the download is complete.
 
 ![Finish Download.](/IMAGE/image%205.png)
 
@@ -90,29 +69,25 @@ The code is divided into two parts: **CODE/Webpage wireless control with LilyGo*
 
 ![Structure of our code in Github](/IMAGE/image%206.png)
 
-Structure of our code in Github
 
 After downloading the code to PC, click on the green circle in the bottom left corner to enter the **PlatformIO homepage (/IMAGE/PIO Home)**.
 
 ![Press Ant in Green Circle to enter](/IMAGE/image%207.png)
 
-Press Ant in Green Circle to enter
 
 Click on **OPEN Project**, then navigate to and open the **CODE/Webpage wireless control with LilyGo** folder.
 
 ![image.png](/IMAGE/image%208.png)
 
-Note that the `.ini` file is the project configuration file and does not need to be modified. When you open the project for the first time, you may see that the dependent `.h` header files are highlighted in red. This is because the necessary development environment and packages need to be automatically configured and downloaded based on the `.ini` file. Please wait for the auto environment configuration process to complete.
+Please wait for the auto environment configuration process to complete.
 
 ![In lower-right corner, The downloading process would start automaticly.](/IMAGE/image%209.png)
 
-In lower-right corner, The downloading process would start automaticly.
 
 Once the environment configuration completes, you will see that the `.h` libraries have been successfully located and the red highlights will disappear.
 
 ![The red underline in h would disappear](/IMAGE/image%2010.png)
 
-The red underline in h would disappear
 
 Afterward, you will see an interface with the following icons:
 
