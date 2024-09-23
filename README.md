@@ -30,7 +30,6 @@ Currently, the robotic arm has already been assemblied with the AGV. LilyGO boar
 
 ![Inside structure of AGV](/IMAGE/AGV_Box.jpg)
 
-Inside structure of AGV
 
 If you would like to upload new code onto LilyGO board, you need to open the AGV box.
 
@@ -46,13 +45,11 @@ If you would like to upload new code onto LilyGO board, you need to open the AGV
 
 ![Platformio Installion Guide](/IMAGE/image%204.png)
 
-Platformio Installion Guide
 
 3: The following display indicates the download is complete.
 
 ![Finish Download.](/IMAGE/image%205.png)
 
-Finish Download.
 
 # 3:Backend Code
 
