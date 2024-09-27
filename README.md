@@ -158,7 +158,7 @@ Remember to save the changes.
 
 2: Open the HTML file in a browser. You will see the following interface webpage.
 
-![image.png](/IMAGE/image%2023.png)
+![image.png](/IMAGE/11112.png)
 
 <aside>
 💡
@@ -185,7 +185,7 @@ Next, sequentially enter the numbers into the green input boxes:
 
 At this point, gently touch the robotic arm. If each joint is powered and cannot be moved manually, it indicates that the arm has been successfully enabled.
 
-![image.png](/IMAGE/image%2024.png)
+![image.png](/IMAGE/11112.png)
 
 4: Next, in the **ID 1 position** section, enter the desired position (/IMAGE/an absolute position relative to the zero point in degrees) and speed (/IMAGE/in RPM). After inputting the values, click **"Send All Commands"** to see the robotic arm move according to the position and speed you have entered.
 
